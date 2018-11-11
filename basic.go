@@ -1,12 +1,12 @@
 package gocvutil
 
 import (
-	"fmt"
 	"image"
 
 	"gocv.io/x/gocv"
 )
 
+// basic.go は中間的な処理のみを実装したモジュールです。
 // TODO テストコード
 
 // ToBlocks はMatを小領域に分割した配列を返します。
@@ -43,18 +43,4 @@ func ToBlocks(m *gocv.Mat, size image.Point) [][]*gocv.Mat {
 	}
 
 	return blocks
-}
-
-// Mozaic はMat全体に対してモザイク処理を掛けます。
-func Mozaic(m *gocv.Mat, blockSize image.Point) error {
-	if m.Size()[0] < blockSize.Y || m.Size()[1] < blockSize.X {
-		return fmt.Errorf("blockSize is bigger than matSize")
-	}
-	for _, row := range ToBlocks(m, blockSize) {
-		for _, block := range row {
-			block.SetTo(block.Mean())
-		}
-	}
-
-	return nil
 }
